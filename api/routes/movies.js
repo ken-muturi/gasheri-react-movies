@@ -2,9 +2,19 @@ const express = require("express");
 const route = express.Router();
 const db = require('../utils/db');
 
-
-route.get("/movies", function (req, res) {
-    db.query('SELECT * FROM movies', function (err, results) {
+route.get("/", function (req, res) {
+    console.log("heeeeeeeeeeeeeeeee")
+    db.query(`
+        SELECT m.*, 
+            r.rating, 
+            c.name as country, 
+            CONCAT_WS(' ', a.firstname, a.othernames) as author 
+        FROM movies m
+        inner join ratings r on r.id = m.rating_id
+        inner join countries c on c.id = m.country_id
+        inner join authors a on a.id = m.author_id
+        ;
+`, function (err, results) {
         if (err) {
             return res.status(400).json({ error: err.sqlMessage });
         }
@@ -12,7 +22,7 @@ route.get("/movies", function (req, res) {
     })
 })
 
-route.get("/movies/search", function (req, res) {
+route.get("/search", function (req, res) {
     const search = req.query.q;
     let where = '';
     if (search) {
@@ -29,7 +39,7 @@ route.get("/movies/search", function (req, res) {
     })
 })
 
-route.get("/movies/:id", function (req, res) {
+route.get("/:id", function (req, res) {
     db.query('SELECT * FROM movies WHERE id=' + req.params.id, function (err, results) {
         if (err) {
             return res.status(400).json({ error: err.sqlMessage });
@@ -38,7 +48,7 @@ route.get("/movies/:id", function (req, res) {
     })
 })
 
-route.post("/movies", function (req, res) {
+route.post("/", function (req, res) {
     const body = req.body
     const values = `('${body.title}', '${body.year}', '${body.created_by}','${body.created_at}')`;
     db.query('INSERT INTO movies (title, year, created_by, created_at ) VALUES ' + values, function (err) {
@@ -54,7 +64,7 @@ route.post("/movies", function (req, res) {
     })
 })
 
-route.patch("/movies/:id", function (req, res) {
+route.patch("/:id", function (req, res) {
     const body = req.body
     const updateColumns = Object.entries(body).map(b => {
         const [column, value] = b;
@@ -69,7 +79,7 @@ route.patch("/movies/:id", function (req, res) {
     })
 })
 
-route.delete("/movies/:id", function (req, res) {
+route.delete("/:id", function (req, res) {
     db.query('DELETE FROM movies WHERE id=' + req.params.id, function (err, results) {
         if (err) {
             return res.status(400).json({ error: err });

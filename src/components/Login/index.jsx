@@ -53,7 +53,7 @@ const Login = () => {
       .then((data) => {
         sessionStorage.setItem("loggedIn", true);
         sessionStorage.setItem("auth", encrypt(JSON.stringify(data)));
-        window.location.href = "/students";
+        window.location.href = "/movies";
       })
       .catch((e) => {
         setErrors(e.message);

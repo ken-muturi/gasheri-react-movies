@@ -13,6 +13,8 @@ route.post('/login', (req, res) => {
 
         if (results.length) {
             const user = results[0]
+            console.log({ password: user.password })
+            console.log({ pass })
             if (user.password === pass) {
                 return res.status(200).json({ firstname: user.firstname, othernames: user.othernames, active: user.active })
             }

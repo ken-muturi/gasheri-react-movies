@@ -1,39 +1,18 @@
 import React from "react";
 
-const Movies = (props) => {
-  const { id, movie, setCurrentMovie, handleDelete } = props;
+const Movie = (props) => {
+  const { movie } = props;
   return (
-    <tr>
-      <th scope="row">{id}</th>
-      <td>{movie.title}</td>
-      <td>{movie.year}</td>
-      <td>{movie.created_by}</td>
-      <td>{movie.created_at}</td>
-      <td>
-        <span
-          className="pointer"
-          onClick={() => {
-            setCurrentMovie(movie);
-          }}
-        >
-          <i className="bi bi-pencil-square"></i> Edit
-        </span>
-        |
-        <a href="#" className="pointer">
-          <i className="bi bi-trash-fill"></i> Profile
-        </a>
-        |
-        <span
-          className="pointer"
-          onClick={() => {
-            handleDelete(movie.id);
-          }}
-        >
-          <i className="bi bi-trash-fill"></i> Delete
-        </span>
-      </td>
-    </tr>
+    <div className="col col-md-3">
+      <div className="p-2 greenish bordered">
+        <h2>{movie.title}</h2>
+        <p>Year: {movie.year}</p>
+        <p>Rating: {movie.rating}</p>
+        <p>Author: {movie.author}</p>
+        <p>Country: {movie.country}</p>
+      </div>
+    </div>
   );
 };
 
-export default Movies;
+export default Movie;

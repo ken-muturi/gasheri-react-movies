@@ -25,11 +25,11 @@ app.use((req, res, next) => {
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(compression());
 
-app.use('/api', countriesRoutes);
-app.use('/api', genresRoutes);
-app.use('/api', moviesRoutes);
+app.use('/api/countries', countriesRoutes);
+app.use('/api/genres', genresRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/movies', moviesRoutes);
 
 const hash = hashPassword(Date.now().toString())
 console.log({ hash })
