@@ -1,145 +1,128 @@
 import React, { useState } from "react";
 import Modal from "../Modal";
-const apiUrL = "http://localhost:3000/api";
+const apiUrL = "http://localhost:8000/api";
 const Form = (props) => {
   const {
-    student,
-    setCurrentStudent,
+    movie,
+    setCurrentMovie,
     setShowError,
     setShowSuccess,
-    setStudents,
+    setMovies,
   } = props;
 
-  const [studentDetails, setStudentDetails] = useState(student);
-  console.log({ studentDetails });
+  const [movieDetails, setMovieDetails] = useState(movie);
+  console.log({ movieDetails });
 
   const handleFormElement = (input, value) => {
-    setStudentDetails({
-      ...studentDetails,
+    setMovieDetails({
+      ...movieDetails,
       [input]: value,
     });
   };
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    fetch(`${apiUrL}/students/${studentDetails.id}`, {
+    fetch(`${apiUrL}/movies/${movieDetails.id}`, {
       method: "PATCH",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(studentDetails),
+      body: JSON.stringify(movieDetails),
     })
       .then((res) => res.json())
       .then((d) => {
         setShowSuccess("Success deleting student");
-        setStudents((prevStudents) => {
-          return prevStudents.map((s) => {
+        setMovies((prevMovies) => {
+          return prevMovies.map((m) => {
             // if(s.id === studentDetails.id) {
             //   return studentDetails;
             // }
             // return s;
-            return s.id === studentDetails.id ? studentDetails : s;
+            return m.id === movieDetails.id ? movieDetails :m;
           });
         });
-        setCurrentStudent(null);
+        setCurrentMovie(null);
       })
       .catch((e) => {
-        setShowError("Error deleting student" + e);
+        setShowError("Error deleting movie" + e);
       });
   };
 
   return (
-    <Modal onClose={setCurrentStudent}>
-      <h2>Student Information Form</h2>
+    <Modal onClose={setCurrentMovie}>
+      <h2>Movie Information Form</h2>
       <form>
+
         <div className="mb-3">
-          <label htmlFor="studentName" className="form-label">
-            Student Name
+          <label htmlFor="movietitle" className="form-label">
+            Movie title
           </label>
           <input
             type="text"
             className="form-control"
-            id="studentName"
-            name="studentName"
-            defaultValue={studentDetails.name}
+            id="movieName"
+            name="movieName"
+            defaultValue={movieDetails.name}
             required
             onChange={(e) => {
               // console.log({ event: e.target.value });
-              setStudentDetails({
-                ...studentDetails,
+              setMovieDetails({
+                ...movieDetails,
                 name: e.target.value,
               });
             }}
           />
         </div>
         <div className="mb-3">
-          <label htmlFor="entryNumber" className="form-label">
-            Entry Number
+          <label htmlFor="year" className="form-label">
+            year
           </label>
           <input
             type="text"
             className="form-control"
-            id="entryNumber"
-            defaultValue={studentDetails.entrynumber}
-            name="entryNumber"
+            id="year"
+            defaultValue={movieDetails.year}
+            name="year"
             required
             onChange={(e) => {
-              handleFormElement("entrynumber", e.target.value);
+              handleFormElement("year", e.target.value);
             }}
           />
         </div>
         <div className="mb-3">
-          <label htmlFor="email" className="form-label">
-            Email
+          <label htmlFor="created_at" className="form-label">
+            created_at
           </label>
           <input
-            type="email"
-            defaultValue={studentDetails.email}
+            type="created_at"
+            defaultValue={movieDetails.created_at}
             className="form-control"
-            id="email"
-            name="email"
+            id="created_at"
+            name="created_at"
             required
             onChange={(e) => {
-              handleFormElement("email", e.target.value);
+              handleFormElement("created_at", e.target.value);
             }}
           />
         </div>
         <div className="mb-3">
-          <label htmlFor="contactNumber" className="form-label">
-            Contact Number
+          <label htmlFor="created_byr" className="form-label">
+           Created by
           </label>
           <input
             type="text"
             className="form-control"
-            id="contactNumber"
-            defaultValue={studentDetails.contactnumber}
-            name="contactNumber"
+            id="created_byr"
+            defaultValue={movieDetails.created_byr}
+            name="created_byr"
             required
             onChange={(e) => {
-              handleFormElement("contactnumber", e.target.value);
+              handleFormElement("created_byr", e.target.value);
             }}
           />
         </div>
-        <div className="mb-3">
-          <label htmlFor="homeCity" className="form-label">
-            Home City
-          </label>
-          <input
-            defaultValue={studentDetails.homecity}
-            type="text"
-            className="form-control"
-            id="homeCity"
-            name="homeCity"
-            required
-            onChange={(e) => {
-              setStudentDetails({
-                ...studentDetails,
-                homecity: e.target.value,
-              });
-            }}
-          />
-        </div>
+        
         <div className="mt-5 mb-2">
           <hr />
           <div className="pt-2">
@@ -154,7 +137,7 @@ const Form = (props) => {
             <input
               type="submit"
               onClick={() => {
-                setCurrentStudent(null);
+                setCurrentMovie(null);
               }}
               value="Cancel"
               className="btn btn-danger"

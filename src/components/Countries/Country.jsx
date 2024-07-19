@@ -1,20 +1,19 @@
 import React from "react";
 
-const Student = (props) => {
-  const { id, student, setCurrentStudent, handleDelete } = props;
+const Country = (props) => {
+  const { id, country, setCurrentCountry, handleDelete } = props;
   return (
     <tr>
       <th scope="row">{id}</th>
-      <td>{student.name}</td>
-      <td>{student.entrynumber}</td>
-      <td>{student.email}</td>
-      <td>{student.contactnumber}</td>
-      <td>{student.homecity}</td>
+      <td>{country.name}</td>
+      <td>{country.iso2}</td>
+      <td>{country.iso3}</td>
+      <td>{country.code}</td>
       <td>
         <span
           className="pointer"
           onClick={() => {
-            setCurrentStudent(student);
+            setCurrentCountry(country);
           }}
         >
           <i className="bi bi-pencil-square"></i> Edit
@@ -27,7 +26,7 @@ const Student = (props) => {
         <span
           className="pointer"
           onClick={() => {
-            handleDelete(student.id);
+            handleDelete(country.id);
           }}
         >
           <i className="bi bi-trash-fill"></i> Delete
@@ -37,4 +36,4 @@ const Student = (props) => {
   );
 };
 
-export default Student;
+export default Country;

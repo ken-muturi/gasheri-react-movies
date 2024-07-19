@@ -5,21 +5,32 @@ const Index = () => {
     <aside id="sidebar" className="sidebar">
       <ul className="sidebar-nav" id="sidebar-nav">
         <li className="nav-item">
-          <a className="nav-link collapsed" href="/users">
+          <a className="nav-link collapsed" href="/movies">
             <i className="bi bi-question-circle"></i>
-            <span>Users</span>
+            <span>movies</span>
           </a>
         </li>
         <li className="nav-item">
-          <a className="nav-link collapsed" href="/students">
+          <a className="nav-link collapsed" href="/authors">
             <i className="bi bi-question-circle"></i>
-            <span>Students</span>
+            <span>Authors</span>
           </a>
         </li>
         <li className="nav-item">
-          <a className="nav-link collapsed" href="/teachers">
+          <a className="nav-link collapsed" href="/ratings">
             <i className="bi bi-question-circle"></i>
-            <span>Teachers</span>
+            <span>Ratings</span>
+          </a>
+        </li>
+        <li className="nav-item">
+          <a className="nav-link collapsed" href="/genres">
+            <i className="bi bi-question-circle"></i>
+            <span>Genres</span>
+          </a>
+        </li><li className="nav-item">
+          <a className="nav-link collapsed" href="/countries">
+            <i className="bi bi-question-circle"></i>
+            <span>Countries</span>
           </a>
         </li>
         <li className="nav-item">

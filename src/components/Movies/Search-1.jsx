@@ -2,12 +2,12 @@ import React, { useState } from "react";
 
 const Search = (props) => {
   const [search, setSearch] = useState("");
-  const { setStudents, showError } = props;
+  const { setMovies, showError } = props;
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    fetch(`http://localhost:3000/api/students/search?q=${search}`)
+    fetch(`http://localhost:8000/api/movies/search?q=${search}`)
       .then(async (res) => {
         if (res.status === 200) {
           return res.json();
@@ -17,7 +17,7 @@ const Search = (props) => {
         }
       })
       .then((data) => {
-        setStudents(data);
+        setMovies(data);
       })
       .catch((e) => {
         showError(e.message);

@@ -1,57 +1,30 @@
 import React, { useState, useEffect } from "react";
-import AddMovies from "./AddMovies";
-import EditMovies from "./EditMovies";
-import Movie from "./Movie";
-import Search from "./Search";
-import Search1 from "./Search-1";
-import Search2 from "./Search-2";
+import AddGenre from "./AddGenre";
+import EditGenre from "./EditGenre";
 import App from "../../App";
+
 const apiUrL = "http://localhost:8000/api";
 
 const Index = () => {
-  const [defaultMovies, setDefaultMovies] = useState([]);
+  const [genres, setGenres] = useState([]);
 
-  const [Movies, setMovies] = useState(defaultMovies);
-
-  const [currentMovies, setCurrentMovies] = useState(null);
-  const [showAddMoviesForm, setShowAddMoviesForm] = useState(false);
+  const [currentGenre, setCurrentGenre] = useState(null);
+  const [showAddGenreForm, setShowAddGenreForm] = useState(false);
 
   const [success, showSuccess] = useState("");
   const [error, showError] = useState("");
 
-  const [search, setSearch] = useState("");
-
   useEffect(() => {
     const fetchData = async () => {
-      const data = await fetch(`${apiUrL}/Movies`).then((res) => res.json());
-      setDefaultMovies(data);
-      setMovies(data);
+      const data = await fetch(`${apiUrL}/genres`).then((res) => res.json());
+      setGenres(data);
     };
 
     fetchData();
   }, []);
 
-  console.log({ defaultMovies });
-
-  useEffect(() => {
-    let MoviesList = defaultMovies;
-    if (search) {
-      MoviesList = MoviesList.filter((s) => {
-        const str = search.toLowerCase();
-        return (
-          s.name.toLowerCase().includes(str) ||
-          s.entrynumber.toLowerCase().includes(str) ||
-          s.email.toLowerCase().includes(str) ||
-          s.contactnumber.toLowerCase().includes(str) ||
-          s.homecity.toLowerCase().includes(str)
-        );
-      });
-    }
-    setMovies(MoviesList);
-  }, [search, defaultMovies]);
-
   const handleDelete = (id) => {
-    fetch(`${apiUrL}/Movies/${id}`, {
+    fetch(`${apiUrL}/genres/${id}`, {
       method: "DELETE",
       headers: {
         Accept: "application/json",
@@ -60,11 +33,11 @@ const Index = () => {
     })
       .then((res) => res.json())
       .then((d) => {
-        setMovies(Movies.filter((d) => d.id !== id));
-        showSuccess("Success deleting Movies");
+        setGenre(genres.filter((d) => d.id !== id));
+        showSuccess("Success deleting genre");
       })
       .catch((e) => {
-        showError("Error deleting Movies" + e);
+        showError("Error deleting genre" + e);
       });
   };
 
@@ -85,13 +58,13 @@ const Index = () => {
       <section className="section">
         <div className="card">
           <div className="card-body">
-            <h5 className="card-title">Movies</h5>
+            <h5 className="card-title">Genres</h5>
             {success && (
               <div
                 className="alert alert-success bg-success text-light border-0 alert-dismissible fade show"
                 role="alert"
               >
-                Success saving Movies
+                Success saving genres
                 <button
                   type="button"
                   className="btn-close btn-close-white"
@@ -106,7 +79,7 @@ const Index = () => {
                 className="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show"
                 role="alert"
               >
-                {error}
+                Error saving genre
                 <button
                   type="button"
                   className="btn-close btn-close-white"
@@ -116,32 +89,42 @@ const Index = () => {
               </div>
             )}
 
-            <Search2 setSearch={setSearch} />
-
-            <Search1 setMovies={setMovies} showError={showError} />
-            <Search setMovies={setMovies} showError={showError} />
-
-            <table className="table table-hover  table-striped table-bordered">
+            <table className="table table-dark">
               <thead>
                 <tr>
                   <th scope="col">#</th>
-                  <th scope="col">Name</th>
-                  <th scope="col">Entry Number</th>
-                  <th scope="col">Email</th>
-                  <th scope="col">Contact</th>
-                  <th scope="col">Home City</th>
+                  <th scope="col">title</th>
+                  <th scope="col">description</th>
+                  <th scope="col"></th>
                 </tr>
               </thead>
               <tbody>
-                {Movies.map((Movie, index) => {
+                {genres.map((genre, index) => {
                   return (
-                    <Movies
-                      key={index}
-                      id={++index}
-                      Movies={Movie}
-                      setCurrentMovies={setCurrentMovies}
-                      handleDelete={handleDelete}
-                    />
+                    <tr key={index}>
+                      <th scope="row">{++index}</th>
+                      <td>{genre.name}</td>
+                      <td>{genre.description}</td>
+                      <td>
+                        <span
+                          className="pointer"
+                          onClick={() => {
+                            setCurrentGenre(genre);
+                          }}
+                        >
+                          <i className="bi bi-pencil-square"></i>
+                        </span>
+                        
+                        <span
+                          className="pointer"
+                          onClick={() => {
+                            handleDelete(genre.id);
+                          }}
+                        >
+                          <i className="bi bi-trash-fill"></i>
+                        </span>
+                      </td>
+                    </tr>
                   );
                 })}
               </tbody>
@@ -151,28 +134,28 @@ const Index = () => {
                 href="#"
                 className="btn btn-sm btn-primary"
                 onClick={() => {
-                  setShowAddMoviesForm(true);
+                  setShowAddGenreForm(true);
                 }}
               >
-                Add Movies
+                Add Genre
               </a>
             </p>
-            {showAddMoviesForm && (
-              <AddMovies
-                setMovies={setMovies}
+            {showAddGenreForm && (
+              <AddGenre
+                setGenres={setGenres}
                 setShowError={showError}
                 setShowSuccess={showSuccess}
-                setShowAddMoviesForm={setShowAddMoviesForm}
+                setShowAddGenreForm={setShowAddGenreForm}
               />
             )}
 
-            {currentMovies && (
-              <EditMovies
-                setMovies={setMovies}
+            {currentGenre && (
+              <EditGenre
+                setGenres={setGenres}
                 setShowError={showError}
                 setShowSuccess={showSuccess}
-                setCurrentMovies={setCurrentMovies}
-                Movies={currentMovies}
+                setCurrentGenre={setCurrentGenre}
+                genre={currentGenre}
               />
             )}
           </div>

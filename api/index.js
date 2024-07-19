@@ -4,9 +4,10 @@ const bodyParser = require('body-parser');
 const compression = require('compression');
 // const path = require('path');
 
-const studentsRoutes = require('./routes/students')
-const teachersRoutes = require('./routes/teachers');
+const countriesRoutes = require('./routes/countries')
+const genresRoutes = require('./routes/genres');
 const userRoutes = require('./routes/users');
+const moviesRoutes = require('./routes/movies');
 const authRoutes = require('./routes/auth');
 const { hashPassword } = require("./utils/util");
 
@@ -24,12 +25,9 @@ app.use((req, res, next) => {
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(compression());
 
-// app.use('/', express.static(path.join(__dirname, 'build')));
-// app.use('/public', express.static(path.join(__dirname, 'build')));
-// app.use('/school', express.static(path.join(__dirname, 'build')));
-
-app.use('/api', studentsRoutes);
-app.use('/api', teachersRoutes);
+app.use('/api', countriesRoutes);
+app.use('/api', genresRoutes);
+app.use('/api', moviesRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
 
@@ -40,5 +38,5 @@ app.get('/', (req, res) => res.json({
 }));
 
 
-const port = 3000;
+const port = 8000;
 app.listen(port, (req, res) => console.log(`Listening at port ${port}`));

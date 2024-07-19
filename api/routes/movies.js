@@ -3,8 +3,8 @@ const route = express.Router();
 const db = require('../utils/db');
 
 
-route.get("/students", function (req, res) {
-    db.query('SELECT * FROM students', function (err, results) {
+route.get("/movies", function (req, res) {
+    db.query('SELECT * FROM movies', function (err, results) {
         if (err) {
             return res.status(400).json({ error: err.sqlMessage });
         }
@@ -12,13 +12,13 @@ route.get("/students", function (req, res) {
     })
 })
 
-route.get("/students/search", function (req, res) {
+route.get("/movies/search", function (req, res) {
     const search = req.query.q;
     let where = '';
     if (search) {
-        where = `WHERE name LIKE '%${search}%' OR entrynumber LIKE '%${search}%' OR email LIKE '%${search}%' OR contactnumber LIKE '%${search}%' OR homecity LIKE '%${search}%'`
+        where = `WHERE title LIKE '%${search}%' OR year LIKE '%${search}%' OR created_by LIKE '%${search}%' OR created_at LIKE '%${search}%' OR homecity LIKE '%${search}%'`
     }
-    db.query(`SELECT * FROM students ${where}`, (err, results) => {
+    db.query(`SELECT * FROM movies ${where}`, (err, results) => {
         if (err) {
             return res.status(400).json({ error: err.sqlMessage });
         }
@@ -29,8 +29,8 @@ route.get("/students/search", function (req, res) {
     })
 })
 
-route.get("/students/:id", function (req, res) {
-    db.query('SELECT * FROM students WHERE id=' + req.params.id, function (err, results) {
+route.get("/movies/:id", function (req, res) {
+    db.query('SELECT * FROM movies WHERE id=' + req.params.id, function (err, results) {
         if (err) {
             return res.status(400).json({ error: err.sqlMessage });
         }
@@ -38,15 +38,14 @@ route.get("/students/:id", function (req, res) {
     })
 })
 
-route.post("/students", function (req, res) {
+route.post("/movies", function (req, res) {
     const body = req.body
-    const values = `('${body.name}', '${body.entrynumber}', '${body.email}','${body.contactnumber}','${body.homecity}')`;
-    db.query('INSERT INTO students (name, entrynumber, email, contactnumber, homecity ) VALUES ' + values, function (err) {
+    const values = `('${body.title}', '${body.year}', '${body.created_by}','${body.created_at}')`;
+    db.query('INSERT INTO movies (title, year, created_by, created_at ) VALUES ' + values, function (err) {
         if (err) {
             return res.status(400).json({ error: err.sqlMessage });
         }
-        // db.query("SELECT * FROM students LIMIT 1 ORDER BY id desc;", (e, result) => {
-        db.query("SELECT * FROM students WHERE id = LAST_INSERT_ID();", (e, result) => {
+        db.query("SELECT * FROM movies WHERE id = LAST_INSERT_ID();", (e, result) => {
             if (e) {
                 return res.status(400).json({ error: e.sqlMessage });
             }
@@ -55,14 +54,14 @@ route.post("/students", function (req, res) {
     })
 })
 
-route.patch("/students/:id", function (req, res) {
+route.patch("/movies/:id", function (req, res) {
     const body = req.body
     const updateColumns = Object.entries(body).map(b => {
         const [column, value] = b;
         return `${column} = '${value}'`
     });
 
-    db.query('UPDATE students SET ' + updateColumns.join(", ") + 'WHERE id=' + req.params.id, function (err, results) {
+    db.query('UPDATE movies SET ' + updateColumns.join(", ") + 'WHERE id=' + req.params.id, function (err, results) {
         if (err) {
             return res.status(400).json({ error: err });
         }
@@ -70,8 +69,8 @@ route.patch("/students/:id", function (req, res) {
     })
 })
 
-route.delete("/students/:id", function (req, res) {
-    db.query('DELETE FROM students WHERE id=' + req.params.id, function (err, results) {
+route.delete("/movies/:id", function (req, res) {
+    db.query('DELETE FROM movies WHERE id=' + req.params.id, function (err, results) {
         if (err) {
             return res.status(400).json({ error: err });
         }

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { encrypt } from "../../utils/util";
 import LoginApp from "../../LoginApp";
 
-const apiUrl = "http://localhost:3000/api";
+const apiUrl = "http://localhost:8000/api";
 const Login = () => {
   // get the email and password
   // use the email and password and post to api
@@ -31,7 +31,7 @@ const Login = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    fetch("http://localhost:3000/api/auth/login", {
+    fetch("http://localhost:8000/api/auth/login", {
       method: "POST",
       headers: {
         Accept: "application/json",
