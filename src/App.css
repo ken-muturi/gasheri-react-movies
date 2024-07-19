@@ -46,3 +46,10 @@
   background: #d0f5e5;
   border: 1px solid #d1e7dd;
 }
+.pointer {
+  cursor: pointer;
+}
+
+.pointer:hover {
+  color: #4154f1
+}

@@ -31,7 +31,7 @@ const Login = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    fetch("http://localhost:8000/api/auth/login", {
+    fetch(apiUrl + "/auth/login", {
       method: "POST",
       headers: {
         Accept: "application/json",
